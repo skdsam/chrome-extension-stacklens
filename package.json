@@ -1,0 +1,10 @@
+{
+  "name": "stacklens",
+  "version": "1.1.0",
+  "description": "StackLens - Web Tech Detector Chrome Extension",
+  "author": "SkdSam",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/matcher.test.js"
+  }
+}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StackLens</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="logo-area">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">
+        <span class="logo-title">StackLens</span>
+        <span class="logo-subtitle" id="domain-label">Scanning...</span>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="count-pill" id="tech-count">0</span>
+    </div>
+  </header>
+
+  <main class="content-container">
+    <div class="search-bar-wrap">
+      <input type="text" id="filter-input" placeholder="Filter technologies (e.g. React, CMS)..." autocomplete="off" />
+    </div>
+
+    <!-- Category groups container -->
+    <div id="tech-list" class="tech-list">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- Empty / Loading state -->
+    <div id="state-message" class="state-message hidden">
+      <div class="state-icon" id="state-icon">🔍</div>
+      <p id="state-text">Detecting stack...</p>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <span class="credit">Crafted by <strong>SkdSam</strong></span>
+    <button id="rescan-btn" class="rescan-btn" title="Rescan current page in-place">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+      </svg>
+      Rescan
+    </button>
+  </footer>
+
+  <script src="../lib/tech-logos.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
