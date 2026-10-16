@@ -10,20 +10,7 @@
  *
  * MV3 service workers are shut down when idle, so NO detection state lives in memory.
  */
-try {
-  importScripts("../data/technologies.js", "../lib/matcher.js", "../lib/main-world-probe.js");
-} catch (err) {
-  try {
-    const base = chrome.runtime.getURL("");
-    importScripts(
-      base + "data/technologies.js",
-      base + "lib/matcher.js",
-      base + "lib/main-world-probe.js"
-    );
-  } catch (err2) {
-    console.error("[StackLens] Failed to importScripts in service worker:", err2);
-  }
-}
+importScripts("data/technologies.js", "lib/matcher.js", "lib/main-world-probe.js");
 
 const DB = (globalThis.STACKLENS_TECHNOLOGIES) || [];
 const M = globalThis.StackLensMatcher || {
