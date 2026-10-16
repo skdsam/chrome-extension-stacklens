@@ -150,4 +150,26 @@ console.log("Running StackLens Engine Tests...\n");
   console.log("✔ Test 6 Passed: Three.js revision extraction & script matching");
 }
 
-console.log("\nAll 6 test suites passed successfully! 🚀");
+// Test 7: Python and Django detection + implied Python
+{
+  const env = {
+    cookies: ["csrftoken", "sessionid"],
+    headers: [
+      { name: "server", value: "gunicorn/21.2.0" }
+    ]
+  };
+
+  const hits = M.detect(DB, env);
+  const final = M.finalize(DB, hits);
+
+  const django = final.find((t) => t.name === "Django");
+  const gunicorn = final.find((t) => t.name === "Gunicorn");
+  const python = final.find((t) => t.name === "Python");
+
+  assert(django, "Django should be detected via cookies");
+  assert(gunicorn, "Gunicorn should be detected via server header");
+  assert(python && python.implied, "Python should be implied by Django and Gunicorn");
+  console.log("✔ Test 7 Passed: Python, Django cookies & Gunicorn header detection");
+}
+
+console.log("\nAll 7 test suites passed successfully! 🚀");

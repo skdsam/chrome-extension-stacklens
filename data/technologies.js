@@ -919,6 +919,18 @@
       }
     },
     {
+      name: "Python",
+      category: "Programming Language",
+      website: "https://www.python.org",
+      icon: "python",
+      rules: {
+        headers: [
+          { name: "server", pattern: "Python(?:/([\\d.]+))?", versionGroup: 1 },
+          { name: "x-powered-by", pattern: "Python(?:/([\\d.]+))?", versionGroup: 1 }
+        ]
+      }
+    },
+    {
       name: "Django",
       category: "Web Framework",
       website: "https://www.djangoproject.com",
@@ -926,32 +938,91 @@
       implies: ["Python"],
       rules: {
         dom: ["input[name='csrfmiddlewaretoken']"],
-        cookies: ["^django_language$"]
+        cookies: ["^csrftoken$", "^django_language$", "^sessionid$"]
       }
     },
     {
-      name: "Ruby on Rails",
+      name: "Flask",
       category: "Web Framework",
-      website: "https://rubyonrails.org",
-      icon: "rubyonrails",
-      implies: ["Ruby"],
+      website: "https://flask.palletsprojects.com",
+      icon: "flask",
+      implies: ["Python"],
       rules: {
-        meta: [{ name: "csrf-param", pattern: "^authenticity_token$" }]
+        headers: [
+          { name: "server", pattern: "Werkzeug(?:/([\\d.]+))?", versionGroup: 1 }
+        ],
+        cookies: ["^session$"]
       }
     },
     {
-      name: "Node.js",
-      category: "Programming Language",
-      website: "https://nodejs.org",
-      icon: "nodedotjs",
-      rules: {}
+      name: "FastAPI",
+      category: "Web Framework",
+      website: "https://fastapi.tiangolo.com",
+      icon: "fastapi",
+      implies: ["Python"],
+      rules: {
+        headers: [
+          { name: "server", pattern: "uvicorn", versionGroup: 1 }
+        ],
+        dom: ["#swagger-ui", ".swagger-ui"]
+      }
     },
     {
-      name: "Python",
-      category: "Programming Language",
-      website: "https://www.python.org",
+      name: "Gunicorn",
+      category: "Web Server",
+      website: "https://gunicorn.org",
+      icon: "gunicorn",
+      implies: ["Python"],
+      rules: {
+        headers: [
+          { name: "server", pattern: "^gunicorn(?:/([\\d.]+))?", versionGroup: 1 }
+        ]
+      }
+    },
+    {
+      name: "uWSGI",
+      category: "Web Server",
+      website: "https://uwsgi-docs.readthedocs.io",
+      icon: null,
+      implies: ["Python"],
+      rules: {
+        headers: [
+          { name: "server", pattern: "uWSGI" }
+        ]
+      }
+    },
+    {
+      name: "PyScript",
+      category: "Web Framework",
+      website: "https://pyscript.net",
       icon: "python",
-      rules: {}
+      implies: ["Python"],
+      rules: {
+        dom: ["py-script", "py-env", "py-config", "script[type='py']"],
+        window: ["pyscript"]
+      }
+    },
+    {
+      name: "Streamlit",
+      category: "Web Framework",
+      website: "https://streamlit.io",
+      icon: "streamlit",
+      implies: ["Python"],
+      rules: {
+        dom: ["#root > .stApp", "[data-testid='stAppViewContainer']"],
+        window: ["streamlitDebug"]
+      }
+    },
+    {
+      name: "Gradio",
+      category: "Web Framework",
+      website: "https://www.gradio.app",
+      icon: "gradio",
+      implies: ["Python"],
+      rules: {
+        dom: ["gradio-app"],
+        window: ["gradio_config"]
+      }
     },
     {
       name: "Ruby",
