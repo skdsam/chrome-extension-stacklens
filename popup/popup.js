@@ -15,9 +15,116 @@ document.addEventListener("DOMContentLoaded", async () => {
   const stateIcon = document.getElementById("state-icon");
   const stateText = document.getElementById("state-text");
   const rescanBtn = document.getElementById("rescan-btn");
+  const themeToggleBtn = document.getElementById("theme-toggle-btn");
 
   const LOGOS = globalThis.STACKLENS_LOGOS || {};
   let allTechnologies = [];
+
+  // ───────────────────────── Apple Mac Theme Engine ─────────────────────────
+  async function getStoredTheme() {
+    try {
+      if (chrome?.storage?.local) {
+        const data = await chrome.storage.local.get(["stacklens_theme"]);
+        if (data && data.stacklens_theme) return data.stacklens_theme;
+      }
+    } catch {
+      // Fallback
+    }
+    try {
+      return localStorage.getItem("stacklens_theme");
+    } catch {
+      return null;
+    }
+  }
+
+  async function setStoredTheme(theme) {
+    try {
+      if (chrome?.storage?.local) {
+        await chrome.storage.local.set({ stacklens_theme: theme });
+      }
+    } catch {
+      // Fallback
+    }
+    try {
+      localStorage.setItem("stacklens_theme", theme);
+    } catch {
+      // ignore
+    }
+  }
+
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === "light") {
+      root.setAttribute("data-theme", "light");
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute("title", "Current: Light theme (Click for Dark · Right-click for Auto)");
+        themeToggleBtn.setAttribute("aria-label", "Switch to Dark theme");
+      }
+    } else if (theme === "dark") {
+      root.setAttribute("data-theme", "dark");
+      if (themeToggleBtn) {
+        themeToggleBtn.setAttribute("title", "Current: Dark theme (Click for Light · Right-click for Auto)");
+        themeToggleBtn.setAttribute("aria-label", "Switch to Light theme");
+      }
+    } else {
+      // Auto / system default
+      root.removeAttribute("data-theme");
+      const isSystemLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      if (themeToggleBtn) {
+        const currentName = isSystemLight ? "Light (System)" : "Dark (System)";
+        const nextName = isSystemLight ? "Dark" : "Light";
+        themeToggleBtn.setAttribute("title", `Current: ${currentName} (Click for ${nextName})`);
+        themeToggleBtn.setAttribute("aria-label", `Switch to ${nextName} theme`);
+      }
+    }
+  }
+
+  async function initTheme() {
+    const saved = await getStoredTheme();
+    if (saved === "light" || saved === "dark") {
+      applyTheme(saved);
+    } else {
+      applyTheme("auto");
+    }
+
+    if (themeToggleBtn) {
+      themeToggleBtn.addEventListener("click", async () => {
+        const currentAttr = document.documentElement.getAttribute("data-theme");
+        let nextTheme;
+
+        if (currentAttr === "light") {
+          nextTheme = "dark";
+        } else if (currentAttr === "dark") {
+          nextTheme = "light";
+        } else {
+          // Auto mode: toggle opposite of current system scheme
+          const isSystemLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+          nextTheme = isSystemLight ? "dark" : "light";
+        }
+
+        applyTheme(nextTheme);
+        await setStoredTheme(nextTheme);
+      });
+
+      // Right-click resets to system auto
+      themeToggleBtn.addEventListener("contextmenu", async (e) => {
+        e.preventDefault();
+        applyTheme("auto");
+        await setStoredTheme("auto");
+      });
+    }
+
+    if (window.matchMedia) {
+      window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+        const currentAttr = document.documentElement.getAttribute("data-theme");
+        if (!currentAttr) {
+          applyTheme("auto");
+        }
+      });
+    }
+  }
+
+  initTheme();
 
   async function getActiveTab() {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });

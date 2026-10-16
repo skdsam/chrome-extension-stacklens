@@ -4,7 +4,8 @@
    precision contrast, native San Francisco styling. Zero blurry glass.
    ───────────────────────────────────────────────────────────── */
 
-:root {
+:root,
+:root[data-theme="dark"] {
   /* Apple Dark Mode System Palette */
   --apple-window-bg: #1e1e1e;
   --apple-header-bg: #252526;
@@ -19,6 +20,7 @@
   --apple-accent: #0a84ff;         /* macOS System Blue */
   --apple-accent-hover: #0071e3;
   --apple-accent-subtle: rgba(10, 132, 255, 0.12);
+  --apple-accent-border: rgba(10, 132, 255, 0.25);
 
   /* Apple System Borders */
   --apple-border: rgba(255, 255, 255, 0.08);
@@ -36,15 +38,61 @@
   --radius-md: 8px;
   --radius-lg: 10px;
 
+  /* Confidence Tag Colors (Dark Mode) */
+  --conf-high-color: #34c759;
+  --conf-high-bg: rgba(52, 199, 89, 0.14);
+  --conf-high-border: rgba(52, 199, 89, 0.28);
+
+  --conf-med-color: #ff9f0a;
+  --conf-med-bg: rgba(255, 159, 10, 0.14);
+  --conf-med-border: rgba(255, 159, 10, 0.28);
+
   /* System Depth Shadows (Subtle, non-blurry) */
   --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.2);
   --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.25);
   --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
-/* Light Mode Overrides for System Preference Support */
+/* Explicit Light Theme (Attribute Override or System Match) */
+:root[data-theme="light"] {
+  --apple-window-bg: #f5f5f7;
+  --apple-header-bg: #ebebed;
+  --apple-footer-bg: #e6e6e8;
+  --apple-card-bg: #ffffff;
+  --apple-card-hover: #f0f0f3;
+  --apple-card-selected: #e8e8ec;
+  --apple-drawer-bg: #fafafc;
+  --apple-search-bg: #ffffff;
+
+  --apple-accent: #0071e3;
+  --apple-accent-hover: #005bb5;
+  --apple-accent-subtle: rgba(0, 113, 227, 0.1);
+  --apple-accent-border: rgba(0, 113, 227, 0.25);
+
+  --apple-border: rgba(0, 0, 0, 0.08);
+  --apple-border-strong: rgba(0, 0, 0, 0.14);
+  --apple-divider: rgba(0, 0, 0, 0.05);
+
+  --text-primary: #1d1d1f;
+  --text-secondary: #515154;
+  --text-tertiary: #86868b;
+
+  /* Confidence Tag Colors (Light Mode) */
+  --conf-high-color: #1a7f37;
+  --conf-high-bg: rgba(40, 167, 69, 0.12);
+  --conf-high-border: rgba(40, 167, 69, 0.25);
+
+  --conf-med-color: #b25900;
+  --conf-med-bg: rgba(217, 119, 6, 0.12);
+  --conf-med-border: rgba(217, 119, 6, 0.25);
+
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
     --apple-window-bg: #f5f5f7;
     --apple-header-bg: #ebebed;
     --apple-footer-bg: #e6e6e8;
@@ -57,14 +105,23 @@
     --apple-accent: #0071e3;
     --apple-accent-hover: #005bb5;
     --apple-accent-subtle: rgba(0, 113, 227, 0.1);
+    --apple-accent-border: rgba(0, 113, 227, 0.25);
 
     --apple-border: rgba(0, 0, 0, 0.08);
-    --apple-border-strong: rgba(0, 0, 0, 0.15);
+    --apple-border-strong: rgba(0, 0, 0, 0.14);
     --apple-divider: rgba(0, 0, 0, 0.05);
 
     --text-primary: #1d1d1f;
-    --text-secondary: #6e6e73;
+    --text-secondary: #515154;
     --text-tertiary: #86868b;
+
+    --conf-high-color: #1a7f37;
+    --conf-high-bg: rgba(40, 167, 69, 0.12);
+    --conf-high-border: rgba(40, 167, 69, 0.25);
+
+    --conf-med-color: #b25900;
+    --conf-med-bg: rgba(217, 119, 6, 0.12);
+    --conf-med-border: rgba(217, 119, 6, 0.25);
 
     --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
@@ -168,10 +225,88 @@ body {
   font-weight: 400;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-toggle-btn {
+  width: 26px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--apple-card-bg);
+  border: 1px solid var(--apple-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  padding: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
+}
+
+.theme-toggle-btn:hover {
+  background: var(--apple-card-hover);
+  color: var(--apple-accent);
+  border-color: var(--apple-accent);
+}
+
+.theme-toggle-btn:hover svg {
+  transform: rotate(15deg);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.94);
+  background: var(--apple-card-selected);
+}
+
+.theme-toggle-btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: none;
+}
+
+/* Default (Dark theme) */
+.theme-icon-sun {
+  display: block !important;
+}
+.theme-icon-moon {
+  display: none !important;
+}
+
+/* Light Theme */
+:root[data-theme="light"] .theme-icon-sun {
+  display: none !important;
+}
+:root[data-theme="light"] .theme-icon-moon {
+  display: block !important;
+}
+
+/* System Light Theme (when not explicitly dark) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .theme-icon-sun {
+    display: none !important;
+  }
+  :root:not([data-theme="dark"]) .theme-icon-moon {
+    display: block !important;
+  }
+}
+
+/* Explicit Dark Theme */
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block !important;
+}
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none !important;
+}
+
 .count-pill {
   background: var(--apple-accent-subtle);
   color: var(--apple-accent);
-  border: 1px solid rgba(10, 132, 255, 0.25);
+  border: 1px solid var(--apple-accent-border);
   font-weight: 600;
   font-size: 11px;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -401,15 +536,15 @@ body {
 }
 
 .conf-high {
-  background: rgba(52, 199, 89, 0.12);    /* Apple System Green */
-  color: #34c759;
-  border: 1px solid rgba(52, 199, 89, 0.25);
+  background: var(--conf-high-bg);
+  color: var(--conf-high-color);
+  border: 1px solid var(--conf-high-border);
 }
 
 .conf-med {
-  background: rgba(255, 159, 10, 0.12);   /* Apple System Orange */
-  color: #ff9f0a;
-  border: 1px solid rgba(255, 159, 10, 0.25);
+  background: var(--conf-med-bg);
+  color: var(--conf-med-color);
+  border: 1px solid var(--conf-med-border);
 }
 
 .conf-implied {
@@ -604,7 +739,8 @@ body {
 
 .rescan-btn:hover {
   background: var(--apple-card-hover);
-  border-color: rgba(255, 255, 255, 0.22);
+  border-color: var(--apple-border-strong);
+  color: var(--apple-accent);
 }
 
 .rescan-btn:active {
