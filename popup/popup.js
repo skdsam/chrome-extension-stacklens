@@ -223,8 +223,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       .replace(/'/g, "&#39;");
   }
 
+  const clearSearchBtn = document.getElementById("clear-search-btn");
+
   filterInput.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase().trim();
+    if (query.length > 0) {
+      clearSearchBtn.classList.remove("hidden");
+    } else {
+      clearSearchBtn.classList.add("hidden");
+    }
+
     if (!query) {
       renderList(allTechnologies);
       return;
@@ -238,6 +246,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         (t.evidence && t.evidence.some((ev) => ev.detail.toLowerCase().includes(query)))
     );
     renderList(filtered);
+  });
+
+  clearSearchBtn.addEventListener("click", () => {
+    filterInput.value = "";
+    clearSearchBtn.classList.add("hidden");
+    filterInput.focus();
+    renderList(allTechnologies);
   });
 
   function showState(icon, text) {
