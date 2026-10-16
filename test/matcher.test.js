@@ -129,4 +129,25 @@ console.log("Running StackLens Engine Tests...\n");
   console.log("✔ Test 5 Passed: Response header detection and version extraction");
 }
 
-console.log("\nAll 5 test suites passed successfully! 🚀");
+// Test 6: Three.js detection with revision extraction
+{
+  const env = {
+    globals: {
+      "THREE.REVISION": "160"
+    },
+    scriptSrcs: [
+      "https://cdnjs.cloudflare.com/ajax/libs/three.js/r160/three.min.js"
+    ]
+  };
+
+  const hits = M.detect(DB, env);
+  const final = M.finalize(DB, hits);
+
+  const three = final.find((t) => t.name === "Three.js");
+  assert(three, "Three.js should be detected");
+  assert.strictEqual(three.version, "160", "Three.js version should match revision 160");
+  assert.strictEqual(three.category, "3D / Graphics");
+  console.log("✔ Test 6 Passed: Three.js revision extraction & script matching");
+}
+
+console.log("\nAll 6 test suites passed successfully! 🚀");

@@ -323,12 +323,24 @@
     },
     {
       name: "Three.js",
-      category: "JavaScript Library",
+      category: "3D / Graphics",
       website: "https://threejs.org",
       icon: "threedotjs",
       rules: {
-        window: [{ path: "THREE.REVISION", versionPath: "THREE.REVISION" }],
-        scriptSrc: ["/three(?:\\.module)?(?:\\.min)?\\.js"]
+        window: [
+          { path: "THREE.REVISION", versionPath: "THREE.REVISION" },
+          { path: "__THREE__", versionPath: "__THREE__" },
+          "THREE.WebGLRenderer",
+          "THREE.Scene"
+        ],
+        scriptSrc: [
+          "/three(?:\\.module)?(?:\\.min)?\\.js",
+          "threejs",
+          "unpkg\\.com/three",
+          "cdn\\.jsdelivr\\.net/npm/three",
+          "cdnjs\\.cloudflare\\.com/ajax/libs/three\\.js"
+        ],
+        dom: ["canvas[data-engine*='three.js']"]
       }
     },
     {
