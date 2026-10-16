@@ -345,12 +345,196 @@
     },
     {
       name: "GSAP",
-      category: "JavaScript Library",
+      category: "Animation",
       website: "https://gsap.com",
       icon: "greensock",
       rules: {
-        window: [{ path: "gsap.version", versionPath: "gsap.version" }],
-        scriptSrc: ["/gsap(?:\\.min)?\\.js"]
+        window: [{ path: "gsap.version", versionPath: "gsap.version" }, "TweenMax", "TimelineMax"],
+        scriptSrc: ["/gsap(?:\\.min)?\\.js", "tweenmax"]
+      }
+    },
+    {
+      name: "Anime.js",
+      category: "Animation",
+      website: "https://animejs.com",
+      icon: null,
+      rules: {
+        window: [{ path: "anime.version", versionPath: "anime.version" }],
+        scriptSrc: ["anime(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Lottie",
+      category: "Animation",
+      website: "https://airbnb.io/lottie/",
+      icon: null,
+      rules: {
+        window: ["lottie", "bodymovin"],
+        scriptSrc: ["lottie(?:-player)?", "bodymovin"],
+        dom: ["lottie-player", "dotlottie-player"]
+      }
+    },
+    {
+      name: "Axios",
+      category: "JavaScript Library",
+      website: "https://axios-http.com",
+      icon: "axios",
+      rules: {
+        window: [{ path: "axios.isAxiosError", versionPath: "axios.VERSION" }],
+        scriptSrc: ["axios(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "D3.js",
+      category: "Data Visualization",
+      website: "https://d3js.org",
+      icon: "d3dotjs",
+      rules: {
+        window: [{ path: "d3.version", versionPath: "d3.version" }],
+        scriptSrc: ["d3(?:\\.v\\d+)?(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Chart.js",
+      category: "Data Visualization",
+      website: "https://www.chartjs.org",
+      icon: "chartdotjs",
+      rules: {
+        window: [{ path: "Chart.version", versionPath: "Chart.version" }],
+        scriptSrc: ["chart(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "ECharts",
+      category: "Data Visualization",
+      website: "https://echarts.apache.org",
+      icon: "apacheecharts",
+      rules: {
+        window: [{ path: "echarts.version", versionPath: "echarts.version" }],
+        scriptSrc: ["echarts(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Highcharts",
+      category: "Data Visualization",
+      website: "https://www.highcharts.com",
+      icon: null,
+      rules: {
+        window: [{ path: "Highcharts.version", versionPath: "Highcharts.version" }],
+        scriptSrc: ["highcharts(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "PixiJS",
+      category: "3D / Graphics",
+      website: "https://pixijs.com",
+      icon: null,
+      rules: {
+        window: [{ path: "PIXI.VERSION", versionPath: "PIXI.VERSION" }],
+        scriptSrc: ["pixi(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Babylon.js",
+      category: "3D / Graphics",
+      website: "https://www.babylonjs.com",
+      icon: null,
+      rules: {
+        window: [{ path: "BABYLON.Engine.Version", versionPath: "BABYLON.Engine.Version" }],
+        scriptSrc: ["babylon(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Swiper",
+      category: "UI Component",
+      website: "https://swiperjs.com",
+      icon: "swiper",
+      rules: {
+        window: ["Swiper"],
+        dom: [".swiper-wrapper", ".swiper-slide"],
+        scriptSrc: ["swiper(?:-bundle)?(?:\\.min)?\\.js"],
+        linkHref: ["swiper(?:-bundle)?(?:\\.min)?\\.css"]
+      }
+    },
+    {
+      name: "Slick Carousel",
+      category: "UI Component",
+      website: "https://kenwheeler.github.io/slick/",
+      icon: null,
+      rules: {
+        dom: [".slick-slider", ".slick-track"],
+        scriptSrc: ["slick(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Moment.js",
+      category: "Utility Library",
+      website: "https://momentjs.com",
+      icon: null,
+      rules: {
+        window: [{ path: "moment.version", versionPath: "moment.version" }],
+        scriptSrc: ["moment(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Day.js",
+      category: "Utility Library",
+      website: "https://day.js.org",
+      icon: null,
+      rules: {
+        window: [{ path: "dayjs.version", versionPath: "dayjs.version" }],
+        scriptSrc: ["dayjs(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Socket.io",
+      category: "Networking",
+      website: "https://socket.io",
+      icon: "socketdotio",
+      rules: {
+        window: ["io.connect", "io.Socket"],
+        scriptSrc: ["socket\\.io(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Redux",
+      category: "State Management",
+      website: "https://redux.js.org",
+      icon: "redux",
+      rules: {
+        window: ["__REDUX_DEVTOOLS_EXTENSION__", "__REDUX_STATE__"]
+      }
+    },
+    {
+      name: "RxJS",
+      category: "JavaScript Library",
+      website: "https://rxjs.dev",
+      icon: "reactivex",
+      rules: {
+        window: ["rxjs.Observable", "Rx.Observable"],
+        scriptSrc: ["rxjs(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Prism.js",
+      category: "Code Syntax Highlighter",
+      website: "https://prismjs.com",
+      icon: "prism",
+      rules: {
+        window: ["Prism.highlight"],
+        dom: ["code[class*='language-']", "pre[class*='language-']"],
+        scriptSrc: ["prism(?:\\.min)?\\.js"]
+      }
+    },
+    {
+      name: "Highlight.js",
+      category: "Code Syntax Highlighter",
+      website: "https://highlightjs.org",
+      icon: null,
+      rules: {
+        window: [{ path: "hljs.versionString", versionPath: "hljs.versionString" }],
+        dom: [".hljs"],
+        scriptSrc: ["highlight(?:\\.min)?\\.js"]
       }
     },
 
